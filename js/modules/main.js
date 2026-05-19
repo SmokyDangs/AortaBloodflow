@@ -11,7 +11,7 @@ let posCurve, lookCurve;
 
 // Berechnete Punkte für einen perfekten Kreisflug (Orbit)
 const radius = 500;       // Wie weit ist die Kamera vom Modell entfernt
-const hoehe = 100;        // Auf welcher Höhe fliegt die Kamera
+const hoehe = 150;        // Auf welcher Höhe fliegt die Kamera
 const blickHoehe = 100;   // Auf welche Höhe des Modells schaut die Kamera (Target Y)
 
 const hotspots = [
