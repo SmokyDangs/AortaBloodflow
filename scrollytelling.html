@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aorta Vergleich - Interaktive Aufklärung</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">Aorta <span>Project</span></a>
+    <div class="nav-toggle" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="scrollytelling.html" class="active">Story</a></li>
+        <li><a href="analyzer.html">Expert Analyzer</a></li>
+        <li><a href="index.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<div class="nav-menu-mobile" id="nav-menu-mobile">
+    <ul>
+        <li><a href="scrollytelling.html">Story</a></li>
+        <li><a href="analyzer.html">Expert Analyzer</a></li>
+        <li><a href="index.html">Dashboard</a></li>
+    </ul>
+</div>
+<div id="progress-bar"></div>
+
+<div id="container3d"></div>
+    <div id="label-left" class="viewport-label">Erkrankte Aorta</div>
+    <div id="label-right" class="viewport-label">Gesunde Aorta</div>
+    <div id="divider"></div>
+
+    <div id="container3d"></div>
+
+    <main id="story">
+        <section class="step">
+            <div class="text-box">
+                <h2>1. Der Überblick</h2>
+                <p>Betrachten wir das Herzstück unseres Kreislaufs. Rechts die gesunde Bahn, links die krankhafte Erweiterung.</p>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="text-box">
+                <h2>2. Die Schwachstelle</h2>
+                <p>Hier im Bauchraum ist der Druck am höchsten. Die Wand gibt nach und bildet eine gefährliche Ausbuchtung.</p>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="text-box">
+                <h2>3. Zeit zum Handeln</h2>
+                <p>Eine rechtzeitige Diagnose schützt vor dem Riss. Moderne Medizin kann diese Stelle sicher stabilisieren.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sektionen -->
+    <section id="definition" class="content-section">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Definition & Statistik</h2>
+                <p>Ein Aneurysma ist eine dauerhafte, krankhafte Erweiterung der Hauptschlagader. Vor allem Männer sind betroffen, da das Risiko mit zunehmendem Alter und bei bestimmten Risikofaktoren drastisch steigt.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder">
+                    <img src="assets/images/sections/1.png" alt="Aneurysma Definition">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="anatomy" class="content-section alt-bg">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Anatomische Übersicht</h2>
+                <p>Im gesunden Zustand ist die Aorta ein elastisches, glattes Gefäß. Sie leitet sauerstoffreiches Blut direkt vom Herzen in alle Körperregionen.</p>
+            </div>
+            <div class="content-media-only">
+                <div id="model-s2-container" style="width: 100%; min-height: 500px; margin-top: 20px; border-radius: 20px;">
+                    <!-- 3D Modell wird hier über js eingebunden -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="symptoms" class="content-section">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Symptome</h2>
+                <p>Oft verläuft ein Aneurysma lange unbemerkt ("stumme Gefahr"). Warnsignale können pulsierende Bauchschmerzen oder Rückenschmerzen sein.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder">
+                    <img src="assets/images/sections/3.png" alt="Symptome Illustration">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="diagnosis" class="content-section alt-bg">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Diagnose</h2>
+                <p>Die Diagnose erfolgt meist schmerzfrei durch Ultraschall oder CT-Untersuchungen, um die Ausdehnung der Erweiterung präzise zu bestimmen.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder dark">
+                    <img src="assets/images/sections/4.png" alt="Diagnose Ultraschall">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="treatment" class="content-section">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Therapie & Heilungschancen</h2>
+                <p>Ab einer kritischen Größe wird stabilisiert, oft durch Stent-Verfahren. Die Heilungschancen bei frühzeitiger Behandlung sind exzellent.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder">
+                    <img src="assets/images/sections/5.png" alt="Stent Behandlung">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prognosis" class="content-section alt-bg">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Prognose</h2>
+                <p>Die Lebenserwartung nach einer erfolgreichen Behandlung entspricht bei konsequenter Nachsorge in der Regel dem Durchschnitt.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder dark">
+                    <img src="assets/images/sections/2.png" alt="Prognose Diagramm">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prevention" class="content-section">
+        <div class="content-container full-width">
+            <div class="content-text-only">
+                <h2>Prävention</h2>
+                <p>Blutdruckkontrolle, Verzicht auf Nikotin und eine ausgewogene Ernährung sind der beste Schutz vor einer Verschlechterung.</p>
+            </div>
+            <div class="content-media-only">
+                <div class="image-placeholder">
+                    <img src="assets/images/sections/1.png" alt="Prävention Lebensstil">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Aorta Scrollytelling Project. Alle Rechte vorbehalten.</p>
+            <div class="footer-links">
+                <a href="#">Impressum</a>
+                <a href="#">Datenschutz</a>
+                <a href="index.html">Dashboard</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="js/modules/main.js?v=20260519-flip-red-spline"></script>
+</body>
+</html>

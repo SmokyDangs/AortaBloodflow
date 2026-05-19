@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Aorta Anatomie - Zentrierter Fokus</title>
+    <style>
+        body { margin: 0; background-color: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; }
+        #scroll-container { position: relative; z-index: 2; height: 1200vh; }
+        
+        #status { 
+            position: fixed; top: 30px; left: 30px; z-index: 3; 
+            background: rgba(0, 0, 0, 0.85); padding: 25px; 
+            border-left: 5px solid #ff4444; width: 380px;
+            font-size: 16px; line-height: 1.5; pointer-events: none;
+        }
+        .highlight { color: #ff4444; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="status">
+        <div id="instruction"><span class="highlight">Initialisierung</span>Modelle werden geladen...</div>
+        <div id="explanation" style="margin-top: 10px; opacity: 0.6;">Bitte warten.</div>
+    </div>
+    
+    <canvas id="main-canvas"></canvas>
+    <div id="scroll-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
+        camera.position.set(0, 0, 1100); 
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#main-canvas'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(100, 100, 200);
+        scene.add(dirLight);
+
+        const loader = new THREE.GLTFLoader();
+        const models = {};
+        const folder = "assets/models/aufgeteilt/";
+
+        const files = [
+            { name: 'base', url: folder + 'aorta_krank.gltf' },
+            { name: 'aneurysma', url: folder + 'aneurysma_flap.gltf' },
+            { name: 'flap', url: folder + 'flap.gltf' }
+        ];
+
+        let loadedCount = 0;
+        files.forEach(file => {
+            loader.load(file.url, (gltf) => {
+                const model = gltf.scene;
+                
+                // CRITICAL: Zentriert die Geometrie im Objekt, damit der Pivot in der Mitte ist
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center); 
+
+                const group = new THREE.Group(); 
+                group.add(model);
+                models[file.name] = group;
+                scene.add(group);
+
+                loadedCount++;
+                if(loadedCount === files.length) initAnimation();
+            });
+        });
+
+        function initAnimation() {
+            const statusLabel = document.getElementById('instruction');
+            const explanationLabel = document.getElementById('explanation');
+            
+            // Hilfsobjekt für das Kamera-Target (damit die Kamera immer zentriert schaut)
+            const camTarget = { x: 0 };
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#scroll-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1
+                },
+                onUpdate: () => {
+                    camera.lookAt(camTarget.x, 0, 0);
+                }
+            });
+
+            // 0. START
+            tl.to({}, {duration: 1})
+              .call(() => {
+                  statusLabel.innerHTML = "<span class='highlight'>Die Übersicht</span>Zusammengesetzte Aorta.";
+                  explanationLabel.innerText = "Alle Teile liegen perfekt zentriert übereinander.";
+              });
+
+            // EXPLOSION (Breiterer Abstand für klare Sicht)
+            tl.to(models.base.position, { x: -600, duration: 3 }, "+=0.5")
+              .to(models.aneurysma.position, { x: 600, duration: 3 }, "<")
+              .to(camera.position, { z: 1200, duration: 3 }, "<");
+
+            // 1. FOKUS BLAUE AORTA (Zentriert im Screen)
+            tl.to(camTarget, { x: -600, duration: 4 })
+              .to(camera.position, { x: -600, z: 600, duration: 4 }, "<")
+              .call(() => {
+                  statusLabel.innerHTML = "<span class='highlight'>Blaue Aorta</span>Hauptelement.";
+                  explanationLabel.innerText = "Die Kamera ist nun exakt auf das Zentrum dieses Objekts ausgerichtet.";
+              })
+              .to(models.base.rotation, { y: Math.PI * 2, duration: 8 }, "<")
+              .to({}, {duration: 2});
+
+            // 2. FOKUS FLAP (Zentriert im Screen)
+            tl.to(camTarget, { x: 0, duration: 4 })
+              .to(camera.position, { x: 0, z: 500, duration: 4 }, "<")
+              .call(() => {
+                  statusLabel.innerHTML = "<span class='highlight'>Der Flap</span>Zentrale Struktur.";
+                  explanationLabel.innerText = "Durch die Zentrierung ragt das Modell nicht mehr aus dem Bild.";
+              })
+              .to(models.flap.rotation, { y: Math.PI * 2, duration: 8 }, "<")
+              .to({}, {duration: 2});
+
+            // 3. FOKUS ANEURYSMA (Zentriert im Screen)
+            tl.to(camTarget, { x: 600, duration: 4 })
+              .to(camera.position, { x: 600, z: 700, duration: 4 }, "<")
+              .call(() => {
+                  statusLabel.innerHTML = "<span class='highlight'>Das Aneurysma</span>Pathologie.";
+                  explanationLabel.innerText = "Die Kamera zoomt kontrolliert auf die Mitte der Ausweitung.";
+              })
+              .to(models.aneurysma.rotation, { y: Math.PI * 2, duration: 8 }, "<")
+              .to({}, {duration: 2});
+
+            // FINALE
+            tl.to(camTarget, { x: 0, duration: 4 })
+              .to(camera.position, { x: 0, z: 1100, duration: 4 }, "<")
+              .to([models.base.position, models.aneurysma.position], { x: 0, duration: 4 }, "<")
+              .call(() => {
+                  statusLabel.innerHTML = "<span class='highlight'>Abschluss</span>";
+                  explanationLabel.innerText = "Alle Elemente kehren in ihre zentrierte Ausgangslage zurück.";
+              });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

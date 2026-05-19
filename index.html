@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aorta Project - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111;
+            --accent-red: #ff4444;
+            --accent-blue: #00d4ff;
+            --accent-green: #00ff88;
+            --text-main: #ffffff;
+            --text-dim: #888;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: var(--nav-height);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin: 0;
+            background: linear-gradient(to right, var(--accent-red), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-dim);
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-blue);
+            opacity: 0.5;
+        }
+
+        .card.scrolly::before { background: var(--accent-red); }
+        .card.analyzer::before { background: var(--accent-blue); }
+        .card.dev::before { background: var(--accent-green); }
+
+        .card h2 {
+            margin: 0 0 15px 0;
+            font-weight: 400;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0 0 25px 0;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+
+        .card:hover .btn {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .footer {
+            margin-top: 60px;
+            color: #333;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Aorta <span>Project</span></a>
+        <ul class="nav-links">
+            <li><a href="scrollytelling.html">Story</a></li>
+            <li><a href="analyzer.html">Expert Analyzer</a></li>
+            <li><a href="index.html" class="active">Dashboard</a></li>
+        </ul>
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Aorta Visualizer</h1>
+        <p>Projekt-Steuerzentrale & Dashboard</p>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <a href="scrollytelling.html" class="card scrolly">
+            <h2>Scrollytelling Experience</h2>
+            <p>Die Haupt-Story: Eine interaktive Reise vom Herzen durch die Anatomie bis hin zum funktionalen Fluss-Vergleich.</p>
+            <div class="btn">Starten</div>
+        </a>
+
+        <a href="analyzer.html" class="card analyzer">
+            <h2>Flow Analyzer Pro</h2>
+            <p>Experten-Ansicht mit Kontrollpanel. Untersuche Turbulenzen, Geschwindigkeiten und Partikel-Verhalten im Detail.</p>
+            <div class="btn">Starten</div>
+        </a>
+
+        <a href="sandbox.html" class="card dev">
+            <h2>Anatomy Sandbox</h2>
+            <p>Experimentelle Ansicht zur Zerlegung der Aorta-Modelle und zur Überprüfung der Mesh-Strukturen.</p>
+            <div class="btn">Starten</div>
+        </a>
+
+    </div>
+
+    <div class="footer">
+        AORTA SCROLLYTELLING PROJECT © 2026
+    </div>
+
+    <script>
+        const navbar = document.querySelector('.navbar');
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
