@@ -31,11 +31,9 @@
 <div id="progress-bar"></div>
 
 <div id="container3d"></div>
-    <div id="label-left" class="viewport-label">Erkrankte Aorta</div>
+<div id="label-left" class="viewport-label">Erkrankte Aorta</div>
     <div id="label-right" class="viewport-label">Gesunde Aorta</div>
     <div id="divider"></div>
-
-    <div id="container3d"></div>
 
     <main id="story">
         <section class="step">
@@ -169,15 +167,14 @@
             </div>
         </div>
     </footer>
-
-    <script type="importmap">
+<script type="importmap">
         {
             "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+                "three": "./vendor/three/three.module.js",
+                "three/addons/": "./vendor/three/addons/"
             }
         }
     </script>
-    <script type="module" src="js/modules/main.js?v=20260519-desktop-visible"></script>
+    <script type="module" src="js/modules/main.js?v=20260519-scrolly-ux-final"></script>
 </body>
 </html>

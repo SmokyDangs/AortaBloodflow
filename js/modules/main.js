@@ -352,6 +352,13 @@ function updateCameraScroll() {
         document.body.classList.remove('in-comparison');
     }
 
+    const documentHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+        const progress = Math.min(100, Math.max(0, (scrollY / documentHeight) * 100));
+        progressBar.style.width = ${progress}%;
+    }
+
     const t = Math.max(0, Math.min(scrollY / totalHeight, 1));
     const mobilePortrait = window.innerWidth <= 820;
     posCurve.getPoint(t, camera1.position);
@@ -379,8 +386,27 @@ function animate() {
 
     const w = window.innerWidth, h = window.innerHeight, scrollY = window.scrollY;
     const stepHeight = h * 1.5;
+    if (w <= 820) {
+        const topHeight = Math.floor(h * 0.5);
+        const bottomHeight = h - topHeight;
 
-    let splitFactor = scrollY < stepHeight ? 1.0 - (scrollY / stepHeight) * 0.5 : 0.5;
+        camera1.aspect = w / topHeight;
+        camera1.updateProjectionMatrix();
+        renderer.setViewport(0, bottomHeight, w, topHeight);
+        renderer.setScissor(0, bottomHeight, w, topHeight);
+        renderer.render(scene1, camera1);
+
+        camera2.position.copy(camera1.position);
+        camera2.quaternion.copy(camera1.quaternion);
+        camera2.aspect = w / bottomHeight;
+        camera2.updateProjectionMatrix();
+        renderer.setViewport(0, 0, w, bottomHeight);
+        renderer.setScissor(0, 0, w, bottomHeight);
+        renderer.render(scene2, camera2);
+        return;
+    }
+
+    const splitFactor = scrollY < stepHeight ? 1.0 - (scrollY / stepHeight) * 0.5 : 0.5;
     const w1 = Math.floor(w * (1 - splitFactor));
     const w2 = w - w1;
     
