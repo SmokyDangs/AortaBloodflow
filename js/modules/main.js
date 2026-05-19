@@ -356,7 +356,7 @@ function updateCameraScroll() {
     const progressBar = document.getElementById('progress-bar');
     if (progressBar) {
         const progress = Math.min(100, Math.max(0, (scrollY / documentHeight) * 100));
-        progressBar.style.width = ${progress}%;
+        progressBar.style.width = `${progress}%`;
     }
 
     const t = Math.max(0, Math.min(scrollY / totalHeight, 1));
