@@ -292,7 +292,7 @@ function applyResponsiveAortaLayout() {
     const rotationX = -Math.PI * 0.5;
     const scale = mobilePortrait ? 0.58 : 0.88;
     const xOffset = 0;
-    const yOffset = 0;
+    const yOffset = 100;
     const zOffset = 0;
 
     [group1, group2].forEach((group) => {
